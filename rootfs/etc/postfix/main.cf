@@ -25,6 +25,9 @@ smtp_sasl_security_options = noanonymous
 # Log to stdout (Docker-friendly)
 maillog_file = /dev/stdout
 
+# Prefer IPv4 to avoid "Network is unreachable" on IPv6
+smtp_address_preference = ipv4
+
 # Queue settings
 maximal_queue_lifetime = 1d
 bounce_queue_lifetime = 1d
