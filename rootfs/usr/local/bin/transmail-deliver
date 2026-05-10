@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/sbin/sendmail -oi "$TRANSMAIL_GMAIL_USER"
+exec /usr/sbin/sendmail -i -- "${1:-$TRANSMAIL_FORWARD_TO}"

@@ -2,8 +2,8 @@ services:
   transmail:
     image: transmail
     volumes:
-      - ./ext:/ext
+      - ./ext:/ext:ro
     environment:
-      - TRANSMAIL_GMAIL_USER
-      - TRANSMAIL_GMAIL_APP_PASSWORD
+      - TRANSMAIL_FORWARD_TO
+      - TRANSMAIL_SASL_PASSWORD
     restart: always

@@ -2,23 +2,25 @@
 set -e
 
 # 各メールアカウントの受信設定
-if [[ ! -f /ext/fetchmailrc ]]; then
-    echo "missing: /ext/fetchmailrc" >&2
-    exit 1
-fi
+: "${TRANSMAIL_FORWARD_TO:?missing: \$TRANSMAIL_FORWARD_TO}"
+[[ -f /ext/fetchmailrc ]] || { echo "missing: /ext/fetchmailrc" >&2; exit 1; }
 
-# Gmailのアプリパスワード
-: "${TRANSMAIL_GMAIL_USER:?missing: \$TRANSMAIL_GMAIL_USER}"
-: "${TRANSMAIL_GMAIL_APP_PASSWORD:?missing: \$TRANSMAIL_GMAIL_APP_PASSWORD}"
-echo "[smtp.gmail.com]:587 ${TRANSMAIL_GMAIL_USER}:${TRANSMAIL_GMAIL_APP_PASSWORD}" > /etc/postfix/sasl_passwd
+# fetchmailは設定ファイルのオーナーに厳しいためコピー
+install -m 600 -o transmail -g transmail \
+    /ext/fetchmailrc \
+    /home/transmail/.fetchmailrc
+
+# SMTPサーバの認証情報
+: "${TRANSMAIL_SASL_PASSWORD:?missing: \$TRANSMAIL_SASL_PASSWORD}"
+echo "$TRANSMAIL_SASL_PASSWORD" > /etc/postfix/sasl_passwd
 postmap /etc/postfix/sasl_passwd
 chmod 600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
 
-# postfixはchrootするのでDockerではこれが必要
+# postfixはchrootするためコピー
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 
 echo "starting postfix"
 postfix start
 
 echo "starting fetchmail as transmail"
-exec gosu transmail fetchmail --nodetach -f /ext/fetchmailrc
+exec gosu transmail fetchmail --nodetach
