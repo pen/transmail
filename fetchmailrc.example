@@ -2,20 +2,15 @@
 
 set daemon 300        # 5分ごとにポーリング
 set no bouncemail     # バウンスメールを送信しない
+
+defaults
+    mda "/usr/local/bin/transmail-deliver"
+    no keep           # 取得後にサーバーから削除する
+
 # --- POP3アカウント例1 (SSL/995) ---
 poll pop.example1.com proto POP3 port 995
     user "you@example1.com" password "password1" ssl
-    mda "/usr/local/bin/transmail-deliver"
-    no keep    # 取得後にサーバーから削除する
 
 # --- POP3アカウント例2 (STARTTLS/110) ---
 poll pop.example2.com proto POP3 port 110
     user "you@example2.com" password "password2"
-    mda "/usr/local/bin/transmail-deliver"
-    no keep
-
-# --- サーバーにメールを残す場合 (no keep を削除、keep を指定) ---
-# poll pop.example3.com proto POP3 port 995
-#     user "you@example3.com" password "password3" ssl
-#     mda "/usr/local/bin/transmail-deliver"
-#     keep      # サーバーに残す (idfile で重複取得を防ぐ)
