@@ -1,4 +1,4 @@
-# Postfix: loopback-only relay to Gmail SMTP
+# Postfix: loopback-only SMTP relay
 
 compatibility_level = 3.6
 myhostname = transmail
@@ -9,8 +9,8 @@ inet_interfaces = loopback-only
 mydestination =
 mynetworks = 127.0.0.0/8 [::1]/128
 
-# Relay all outbound mail through Gmail SMTP
-relayhost = [smtp.gmail.com]:587
+# Relay all outbound mail through SMTP relay (set dynamically at startup)
+relayhost =
 
 # TLS (required by Gmail)
 smtp_use_tls = yes

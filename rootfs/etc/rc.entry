@@ -15,6 +15,7 @@ install -m 600 -o transmail -g transmail \
 echo "$TRANSMAIL_SASL_PASSWORD" > /etc/postfix/sasl_passwd
 postmap /etc/postfix/sasl_passwd
 chmod 600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+postconf -e "relayhost=${TRANSMAIL_SASL_PASSWORD%% *}"
 
 # postfixはchrootするためコピー
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
