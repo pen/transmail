@@ -1,6 +1,8 @@
 services:
   transmail:
     image: transmail
+    volumes:
+      - ./ext:/ext
     environment:
       - TRANSMAIL_GMAIL_USER
       - TRANSMAIL_GMAIL_APP_PASSWORD

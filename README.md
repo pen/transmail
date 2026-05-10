@@ -23,9 +23,10 @@
 どちらもパーミッションに気をつけてください。
 
 ```
-cp fetchmailrc.example rootfs/home/transmail/.fetchmailrc
-chmod 600 rootfs/home/transmail/.fetchmailrc
-vi rootfs/home/transmail/.fetchmailrc
+mkdir -p ext
+cp fetchmailrc.example ext/fetchmailrc
+chmod 600 ext/fetchmailrc
+vi ext/fetchmailrc
 ```
 
 ```
@@ -63,9 +64,10 @@ ssh target.example.com
 sudo docker load < transmail.tar
 ```
 
-.env や docker-compose.yaml は既存のものをscpで上書きしないよう気をつけてください。
+.env、fetchmailrc、docker-compose.yaml は既存のものをscpで上書きしないよう気をつけてください。
 ```
 vi .env
+vi ext/fetchmailrc
 vi docker-compose.yaml
 ```
 

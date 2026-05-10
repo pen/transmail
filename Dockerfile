@@ -16,6 +16,6 @@ RUN groupadd -g ${GID} transmail \
 COPY --chown=root:root rootfs /
 RUN chown -R transmail:transmail /home/transmail
 RUN chmod 700 /etc/rc.entry
-RUN chmod 600 /home/transmail/.fetchmailrc
+RUN mkdir /ext
 
 ENTRYPOINT ["/etc/rc.entry"]

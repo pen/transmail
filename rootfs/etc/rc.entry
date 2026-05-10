@@ -1,9 +1,13 @@
 #!/bin/bash
 set -e
 
-#
-# 転送に使うGmailのアプリパスワード
-#
+# 各メールアカウントの受信設定
+if [[ ! -f /ext/fetchmailrc ]]; then
+    echo "missing: /ext/fetchmailrc" >&2
+    exit 1
+fi
+
+# Gmailのアプリパスワード
 : "${TRANSMAIL_GMAIL_USER:?missing: \$TRANSMAIL_GMAIL_USER}"
 : "${TRANSMAIL_GMAIL_APP_PASSWORD:?missing: \$TRANSMAIL_GMAIL_APP_PASSWORD}"
 echo "[smtp.gmail.com]:587 ${TRANSMAIL_GMAIL_USER}:${TRANSMAIL_GMAIL_APP_PASSWORD}" > /etc/postfix/sasl_passwd
@@ -17,4 +21,4 @@ echo "starting postfix"
 postfix start
 
 echo "starting fetchmail as transmail"
-exec gosu transmail fetchmail --nodetach
+exec gosu transmail fetchmail --nodetach -f /ext/fetchmailrc

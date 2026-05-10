@@ -1,4 +1,4 @@
-# rootfs/transmail/.fetchmailrc にコピーして編集
+# ext/fetchmailrc にコピーして編集
 
 set daemon 300        # 5分ごとにポーリング
 set no bouncemail     # バウンスメールを送信しない
