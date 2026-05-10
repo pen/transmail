@@ -1,0 +1,4 @@
+/.env
+/rootfs/home/transmail/.fetchmailrc
+/transmail.tar
+/vol/

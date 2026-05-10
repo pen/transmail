@@ -1,0 +1,73 @@
+# transmail
+
+## 概要
+
+複数のメールアカウントから定期的に受信してGmailのアドレスに転送します。
+
+**受信・送信のパスワードを設定するのでセキュリティに注意してください。**
+
+## Requiement
+
+- あなたが所有する安全なコンテナ実行環境
+- 2段階認証でログインしているGmailのアカウント
+- 各メールアカウントのアプリへの設定情報(POPのパスワード)
+
+## 設定
+
+受信のための設定ファイル、送信のための環境ファイルがあります。
+それぞれサンプルをコピーして書き換えるとよいでしょう。
+どちらもパーミッションに気をつけてください。
+
+```
+cp fetchmailrc.example rootfs/home/transmail/.fetchmailrc
+chmod 600 rootfs/home/transmail/.fetchmailrc
+vi rootfs/home/transmail/.fetchmailrc
+```
+
+```
+cp env.example .env
+chmod 600 .env
+vi .env
+```
+
+## インストール
+
+### ローカルでしばらく動かして様子をみる
+
+リポジトリをクローンしたディレクトリで
+
+```
+sh make-local-image.sh
+mkdir -p vol/transmail
+docker compose up
+```
+
+### 安全なコンテナ実行環境のあるlinuxサーバで動かす
+
+あなたの環境にあわせて読み替えてください。
+
+UIDとGIDをあわせておくとよいでしょう。
+```
+vi make-linux-image-tar.sh
+```
+
+サーバ側でイメージを作ります。
+
+```
+sh make-linux-image-tar.sh
+scp transmail.tar target.example.com:
+ssh target.example.com
+sudo docker load < transmail.tar
+```
+
+.env や docker-compose.yaml は既存のものをscpで上書きしないよう気をつけてください。
+```
+vi .env
+vi docker-compose.yaml
+```
+
+バックグラウンドで動かします
+```
+mkdir -p vol/transmail
+sudo docker compose up -d
+```

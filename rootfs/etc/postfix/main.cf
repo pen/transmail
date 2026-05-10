@@ -1,0 +1,30 @@
+# Postfix: loopback-only relay to Gmail SMTP
+
+compatibility_level = 3.6
+myhostname = transmail
+mydomain = localdomain
+myorigin = $myhostname
+
+inet_interfaces = loopback-only
+mydestination =
+mynetworks = 127.0.0.0/8 [::1]/128
+
+# Relay all outbound mail through Gmail SMTP
+relayhost = [smtp.gmail.com]:587
+
+# TLS (required by Gmail)
+smtp_use_tls = yes
+smtp_tls_security_level = encrypt
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+# SASL authentication
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+
+# Log to stdout (Docker-friendly)
+maillog_file = /dev/stdout
+
+# Queue settings
+maximal_queue_lifetime = 1d
+bounce_queue_lifetime = 1d
