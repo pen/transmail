@@ -1,8 +1,6 @@
 services:
   transmail:
     image: transmail
-    volumes:
-      - ./vol/transmail:/home/transmail/.fetchmail
     environment:
       - TRANSMAIL_GMAIL_USER
       - TRANSMAIL_GMAIL_APP_PASSWORD

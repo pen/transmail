@@ -2,8 +2,6 @@
 
 set daemon 300        # 5分ごとにポーリング
 set no bouncemail     # バウンスメールを送信しない
-set idfile .fetchmail/fetchids
-
 # --- POP3アカウント例1 (SSL/995) ---
 poll pop.example1.com proto POP3 port 995
     user "you@example1.com" password "password1" ssl

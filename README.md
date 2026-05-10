@@ -12,6 +12,10 @@
 - 2段階認証でログインしているGmailのアカウント
 - 各メールアカウントのアプリへの設定情報(POPのパスワード)
 
+### 前提
+
+受信したメールはもとのアカウントには残しません。
+
 ## 設定
 
 受信のための設定ファイル、送信のための環境ファイルがあります。
@@ -38,7 +42,6 @@ vi .env
 
 ```
 sh make-local-image.sh
-mkdir -p vol/transmail
 docker compose up
 ```
 
@@ -68,6 +71,5 @@ vi docker-compose.yaml
 
 バックグラウンドで動かします
 ```
-mkdir -p vol/transmail
 sudo docker compose up -d
 ```
